@@ -1,0 +1,37 @@
+########################################
+# Program: needle
+# Rundate: Fri 26 Apr 2024 13:52:15
+# Commandline: needle
+#    [-asequence] 1.fas
+#    [-bsequence] 2.fas
+#    [-outfile] 1-2.needle
+#    -auto
+# Align_format: srspair
+# Report_file: 1-2.needle
+########################################
+
+#=======================================
+#
+# Aligned_sequences: 2
+# 1: 1
+# 2: 2
+# Matrix: EDNAFULL
+# Gap_penalty: 10.0
+# Extend_penalty: 0.5
+#
+# Length: 46
+# Identity:      25/46 (54.3%)
+# Similarity:    25/46 (54.3%)
+# Gaps:          19/46 (41.3%)
+# Score: 117.0
+# 
+#
+#=======================================
+
+1                  1 ACTACTAGATTACTTACGGATCAGGTACTTTAGAGGCTTGCAACCA     46
+                               ||||.||||||.|||||||||||||||         
+2                  1 ----------TACTCACGGATGAGGTACTTTAGAGGC---------     27
+
+
+#---------------------------------------
+#---------------------------------------

@@ -1,0 +1,75 @@
+---
+title: "ggtree Notebook"
+output: ggtreee notebook
+---
+
+import
+```{r}
+library("ggtree")
+library("dplyr")
+library("ggplot2")
+
+```
+
+library("phytools")
+library("ape")
+library("treeio")
+library("phangorn")
+library("grid")
+library("gridExtra")
+library("ggrepel")
+library("scales")
+library("dendextend")
+
+
+```{r}
+# create three examples
+x <- rtree(30)
+x$node.label <- paste0("Node", 1:x$Nnode)
+
+y <- rtree(30)
+y$node.label <- paste0("Node", 1:y$Nnode)
+
+z <- rtree(30)
+z$node.label <- paste0("Node", 1:z$Nnode)
+
+# tanglegram plot if using your files
+#x <- read.tree("./your_nwk_file")
+#y <- read.tree("./your_nwk_file")
+#z <- read.tree("./your_nwk_file")
+
+p1 <- ggtree(x)
+p2 <- ggtree(y)
+
+d1 <- p1$data
+d2 <- p2$data
+
+## reverse x-axis and 
+## set offset to make the tree in the right hand side of the first tree
+d2$x <- max(d2$x) - d2$x + max(d1$x) + 1
+
+pp <- p1 + geom_tiplab() + geom_tree(data=d2) + geom_tiplab(data = d2, hjust=1)
+
+dd <- bind_rows(d1, d2) %>% 
+  filter(!is.na(label))
+dd
+
+## plot
+pp + geom_line(aes(x, y, group=label), data=dd, color='grey') + 
+  geom_line(aes(x, y, group=label, color=node < 15), data=dd, alpha=.3)
+
+ggsave("tanglegram_two_trees.pdf", width=12, height=12, dpi=600)
+
+d2 <- fortify(y)
+d3 <- fortify(z)
+d2$x <- d2$x + max(d1$x) + 1
+d3$x <- d3$x + max(d2$x) + 1
+
+dd = bind_rows(d1, d2, d3) %>% 
+  filter(!is.na(label))
+
+p1 + geom_tree(data = d2) + geom_tree(data = d3) + geom_tiplab(data=d3) + 
+  geom_line(aes(x, y, group=label, color=node < 15), data=dd, alpha=.3)
+
+ggsave("tanglegram_three_trees.pdf", width=12, height=12, dpi=600)
+```
